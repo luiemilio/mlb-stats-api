@@ -6,6 +6,10 @@ type Params = {
     sportIds?: number[];
     gameType?: string;
     seasonId?: number;
+    divisionId?: number;
+    leagueId?: number;
+    seasonState?: string;
+    active?: boolean;
 };
 
 type Base = {
@@ -98,5 +102,56 @@ type Seasons = Base & {
     seasons: Season[];
 };
 
-export type Endpoints = 'sports' | 'teams' | 'seasons';
+type Division = {
+    id: number;
+    name: string;
+    season: string;
+    nameShort: string;
+    link: string;
+    abbreviation: string;
+    league: {
+        id: number;
+        link: string;
+    };
+    sport: {
+        id: number;
+        link: string;
+    };
+    hasWildcard: boolean;
+    sortOrder: number;
+    numPlayoffTeams: number;
+    active: true;
+};
+
+type Divisions = Base & {
+    divisions: Division[];
+};
+
+type League = {
+    id: number;
+    name: string;
+    link: string;
+    abbreviation: string;
+    nameShort: string;
+    seasonState: string;
+    hasWildCard: boolean;
+    hasSplitSeason: boolean;
+    seasonDateInfo: Season;
+    season: string;
+    orgCode: string;
+    conferencesInUse: boolean;
+    divisionsInUse: boolean;
+    sport: {
+        id: number;
+        link: string;
+    };
+    sortOrder: number;
+    active: boolean;
+};
+
+type Leagues = Base & {
+    leagues: League[];
+};
+
+export type Endpoints = 'sports' | 'teams' | 'seasons' | 'standings' | 'divisions' | 'league';
 export type Response<Endpoint> = Endpoint extends 'sports' ? Sports : Endpoint extends 'teams' ? Teams : never;

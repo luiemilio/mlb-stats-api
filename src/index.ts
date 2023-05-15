@@ -1,6 +1,6 @@
 import * as https from 'node:https';
 import * as querystring from 'node:querystring';
-import type { Params, Sports, Teams, Endpoints, Response, Seasons, Season } from './types';
+import type { Params, Sports, Teams, Endpoints, Response, Seasons, Season, Divisions, Leagues } from './types';
 
 const fetchJson = async <Endpoint extends Endpoints>(
     endpoint: Endpoint,
@@ -43,6 +43,14 @@ export const getCurrentSeason = async (): Promise<Season> => {
     return (await getSeasons({ sportId: 1, seasonId: new Date().getFullYear() })).seasons[0];
 };
 
+export const getLeagues = async (params?: Params): Promise<Leagues> => {
+    return fetchJson('league', params);
+};
+
+export const getDivisions = async (params?: Params): Promise<Divisions> => {
+    return fetchJson('divisions', params);
+};
+
 (async () => {
     // const sportsData = await getSports();
     // console.log(sportsData.filter(sport => );
@@ -53,5 +61,10 @@ export const getCurrentSeason = async (): Promise<Season> => {
     // const seasons = await getSeasons({ seasonId: 2023, sportId: 1 });
     // console.log(seasons);
     // const currentSeason = await getCurrentSeason();
-    // console.log(currentSeason);
+    // const mlbDivisions = (await getDivisions({ sportId: 1, divisionId: 205 })).divisions;
+    // const activeMlbDivisions = mlbDivisions.filter((division) => division.active);
+    // console.log(activeMlbDivisions.length);
+    // console.log(activeMlbDivisions);
+    // const leagues = (await getLeagues({ sportId: 1 })).leagues;
+    // console.log(leagues.filter((league) => league.active && league.seasonState === 'inseason'));
 })();
