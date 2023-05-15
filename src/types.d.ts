@@ -8,11 +8,11 @@ type Params = {
     seasonId?: number;
 };
 
-interface Base {
+type Base = {
     copyright: string;
-}
+};
 
-interface Sport {
+type Sport = {
     id: number;
     code: string;
     link: string;
@@ -20,13 +20,13 @@ interface Sport {
     abbreviation: string;
     sortOrder: number;
     activeStatus: boolean;
-}
+};
 
-export interface Sports extends Base {
+export type Sports = Base & {
     sports: Sport[];
-}
+};
 
-interface Team {
+type Team = {
     allStarStatus: string;
     id: number;
     name: string;
@@ -64,13 +64,13 @@ interface Team {
     franchiseName: string;
     clubName: string;
     active: true;
-}
+};
 
-interface Teams extends Base {
+type Teams = Base & {
     teams: Team[];
-}
+};
 
-interface Season {
+type Season = {
     seasonId: string;
     hasWildcard: true;
     preSeasonStartDate: string;
@@ -92,11 +92,11 @@ interface Season {
     gameLevelGamedayType: string;
     qualifierPlateAppearances: 3.1;
     qualifierOutsPitched: 6000;
-}
+};
 
-interface Seasons extends Base {
+type Seasons = Base & {
     seasons: Season[];
-}
+};
 
 export type Endpoints = 'sports' | 'teams' | 'seasons';
 export type Response<Endpoint> = Endpoint extends 'sports' ? Sports : Endpoint extends 'teams' ? Teams : never;
