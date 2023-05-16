@@ -153,5 +153,108 @@ type Leagues = Base & {
     leagues: League[];
 };
 
-export type Endpoints = 'sports' | 'teams' | 'seasons' | 'standings' | 'divisions' | 'league';
-export type Response<Endpoint> = Endpoint extends 'sports' ? Sports : Endpoint extends 'teams' ? Teams : never;
+type Record = {
+    wins: number;
+    losses: number;
+    type: string;
+    pct: string;
+};
+
+type TeamRecord = {
+    team: {
+        id: number;
+        name: string;
+        link: string;
+    };
+    season: string;
+    streak: {
+        streakType: string;
+        streakNumber: number;
+        streakCode: string;
+    };
+    divisionRank: string;
+    leagueRank: string;
+    wildCardRank: string;
+    sportRank: string;
+    gamesPlayed: number;
+    gamesBack: string;
+    wildCardGamesBack: string;
+    leagueGamesBack: string;
+    springLeagueGamesBack: '-';
+    sportGamesBack: string;
+    divisionGamesBack: string;
+    conferenceGamesBack: string;
+    leagueRecord: {
+        wins: number;
+        losses: number;
+        ties: number;
+        pct: string;
+    };
+    lastUpdated: string;
+    records: {
+        splitRecords: Record[];
+        divisionRecords: Record[];
+        overallRecords: Record[];
+        leagueRecords: Record[];
+        expectedRecords: Record[];
+    };
+    runsAllowed: number;
+    runsScored: number;
+    divisionChamp: boolean;
+    divisionLeader: boolean;
+    hasWildcard: boolean;
+    clinched: boolean;
+    eliminationNumber: string;
+    wildCardEliminationNumber: string;
+    wins: number;
+    losses: number;
+    runDifferential: number;
+    winningPercentage: string;
+};
+
+type Standing = {
+    standingsType: string;
+    league: {
+        id: number;
+        link: string;
+    };
+    division: {
+        id: number;
+        link: string;
+    };
+    sport: {
+        id: number;
+        link: string;
+    };
+    lastUpdated: string;
+    teamRecords: TeamRecord[];
+};
+
+type Standings = Base & {
+    records: Standing[];
+};
+
+type LeagueWithStandings = League & {
+    standings: Array<
+        Standing & {
+            division: Division;
+        }
+    >;
+};
+
+type Endpoints = 'sports' | 'teams' | 'seasons' | 'standings' | 'divisions' | 'league' | 'team';
+type Response<Endpoint> = Endpoint extends 'sports'
+    ? Sports
+    : Endpoint extends 'teams'
+    ? Teams
+    : Endpoint extends 'seasons'
+    ? Seasons
+    : Endpoint extends 'standings'
+    ? Standings
+    : Endpoint extends 'divisions'
+    ? Divisions
+    : Endpoint extends 'league'
+    ? Leagues
+    : Endpoint extends 'team'
+    ? Team
+    : never;

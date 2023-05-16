@@ -1,13 +1,27 @@
 import * as https from 'node:https';
 import * as querystring from 'node:querystring';
-import type { Params, Sports, Teams, Endpoints, Response, Seasons, Season, Divisions, Leagues } from './types';
+import type {
+    Params,
+    Sports,
+    Teams,
+    Endpoints,
+    Response,
+    Seasons,
+    Season,
+    Divisions,
+    Leagues,
+    Standings,
+    Team,
+    LeagueWithStandings
+} from './types';
 
 const fetchJson = async <Endpoint extends Endpoints>(
     endpoint: Endpoint,
     params?: Params
 ): Promise<Response<Endpoint>> => {
+    const finalParams = { sportId: 1, ...params };
     const baseUrl = 'https://statsapi.mlb.com/api/v1/';
-    const queryString = querystring.stringify(params);
+    const queryString = querystring.stringify(finalParams);
     const url = `${baseUrl}${endpoint}?${queryString}`;
 
     return new Promise((resolve, reject) => {
@@ -51,6 +65,43 @@ export const getDivisions = async (params?: Params): Promise<Divisions> => {
     return fetchJson('divisions', params);
 };
 
+export const getStandings = async (params?: Params): Promise<Standings> => {
+    return fetchJson('standings', params);
+};
+
+export const getTeam = async (params?: Params): Promise<Team> => {
+    return fetchJson('team', params);
+};
+
+export const getCurrentStandings = async (): Promise<LeagueWithStandings[]> => {
+    const activeLeagues = (await getLeagues({ sportId: 1 })).leagues.filter(
+        (league) => league.active && league.seasonState === 'inseason'
+    );
+
+    const activeLeaguesPromises = activeLeagues.map(async (league) => {
+        const { id } = league;
+        const standings = (await getStandings({ leagueId: id })).records;
+
+        const standingsPromise = standings.map(async (standing) => {
+            const division = (await getDivisions({ divisionId: standing.division.id })).divisions[0];
+
+            return {
+                ...standing,
+                division
+            };
+        });
+
+        const extendedStandings = await Promise.all(standingsPromise);
+
+        return {
+            ...league,
+            standings: extendedStandings
+        };
+    });
+
+    return Promise.all(activeLeaguesPromises);
+};
+
 (async () => {
     // const sportsData = await getSports();
     // console.log(sportsData.filter(sport => );
@@ -65,6 +116,9 @@ export const getDivisions = async (params?: Params): Promise<Divisions> => {
     // const activeMlbDivisions = mlbDivisions.filter((division) => division.active);
     // console.log(activeMlbDivisions.length);
     // console.log(activeMlbDivisions);
-    // const leagues = (await getLeagues({ sportId: 1 })).leagues;
-    // console.log(leagues.filter((league) => league.active && league.seasonState === 'inseason'));
+    // const currentStandings = await getCurrentStandings();
+    // currentStandings.forEach((league: any) => {
+    //     console.log(league.standings);
+    // });
+    // console.log(JSON.stringify(currentStandings));
 })();
