@@ -102,23 +102,23 @@ export const getCurrentStandings = async (): Promise<LeagueWithStandings[]> => {
     return Promise.all(activeLeaguesPromises);
 };
 
-(async () => {
-    // const sportsData = await getSports();
-    // console.log(sportsData.filter(sport => );
-    // const mlbId = sportsData.sports.find(sport => sport.code === 'mlb')?.id;
-    // const teamsData = await getTeams();
-    // const activeMlbTeams = teamsData.teams.filter(team => team.active && team.sport.id === mlbId);
-    // console.log(activeMlbTeams.map((team) => team.name));
-    // const seasons = await getSeasons({ seasonId: 2023, sportId: 1 });
-    // console.log(seasons);
-    // const currentSeason = await getCurrentSeason();
-    // const mlbDivisions = (await getDivisions({ sportId: 1, divisionId: 205 })).divisions;
-    // const activeMlbDivisions = mlbDivisions.filter((division) => division.active);
-    // console.log(activeMlbDivisions.length);
-    // console.log(activeMlbDivisions);
-    // const currentStandings = await getCurrentStandings();
-    // currentStandings.forEach((league: any) => {
-    //     console.log(league.standings);
-    // });
-    // console.log(JSON.stringify(currentStandings));
-})();
+// (async () => {
+// const sportsData = await getSports();
+// console.log(sportsData.filter(sport => );
+// const mlbId = sportsData.sports.find(sport => sport.code === 'mlb')?.id;
+// const teamsData = await getTeams();
+// const activeMlbTeams = teamsData.teams.filter(team => team.active && team.sport.id === mlbId);
+// console.log(activeMlbTeams.map((team) => team.name));
+// const seasons = await getSeasons({ seasonId: 2023, sportId: 1 });
+// console.log(seasons);
+// const currentSeason = await getCurrentSeason();
+// const mlbDivisions = (await getDivisions({ sportId: 1, divisionId: 205 })).divisions;
+// const activeMlbDivisions = mlbDivisions.filter((division) => division.active);
+// console.log(activeMlbDivisions.length);
+// console.log(activeMlbDivisions);
+// const currentStandings = await getCurrentStandings();
+// currentStandings.forEach((league: any) => {
+//     console.log(league.standings);
+// });
+// console.log(JSON.stringify(currentStandings));
+// })();

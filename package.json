@@ -9,6 +9,10 @@
         "lint": "eslint --ignore-path .eslintignore --ext .js,.ts .",
         "format": "prettier --ignore-path .gitignore --write \"**/*.+(js|ts|json)\""
     },
+    "pre-commit": [
+        "lint",
+        "format"
+    ],
     "keywords": [],
     "author": "",
     "license": "ISC",
