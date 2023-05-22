@@ -1,6 +1,6 @@
 {
     "compilerOptions": {
-        "outDir": "out", // where to put the compiled JS files
+        "outDir": "dist", // where to put the compiled JS files
         "target": "ES2020", // which level of JS support to target
         "module": "CommonJS", // which system for the program AMD, UMD, System, CommonJS
 

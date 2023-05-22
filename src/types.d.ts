@@ -10,6 +10,9 @@ type Params = {
     leagueId?: number;
     seasonState?: string;
     active?: boolean;
+    gamePk?: number;
+    startDate?: string;
+    endDate?: string;
 };
 
 type Base = {
@@ -242,7 +245,87 @@ type LeagueWithStandings = League & {
     >;
 };
 
-type Endpoints = 'sports' | 'teams' | 'seasons' | 'standings' | 'divisions' | 'league' | 'team';
+type TeamGameInfo = {
+    leagueRecord: {
+        wins: 'string';
+        losses: 'string';
+        pct: 'string';
+    };
+    score: number;
+    team: {
+        id: number;
+        name: 'string';
+        link: 'string';
+    };
+    isWinner: boolean;
+    splitSquad: boolean;
+    seriesNumber: number;
+}
+
+type Game = {
+    gamePk: number;
+    link: 'string';
+    gameType: 'string';
+    season: 'string';
+    gameDate: 'string';
+    officialDate: 'string';
+    status: {
+        abstractGameState: 'string';
+        codedGameState:	'string';
+        detailedState: 'string';
+        statusCode:	'string';
+        startTimeTBD: boolean;
+        abstractGameCode: 'string';
+    };
+    teams: {
+        away: TeamGameInfo;
+        home: TeamGameInfo;
+    };
+    venue: {
+        id: number;
+        name: 'string';
+        link: 'string';
+    };
+    content: {
+        link: 'string';
+    };
+    isTie:	boolean;
+    gameNumber:	number;
+    publicFacing: boolean;
+    doubleHeader: string;
+    gamedayType: string;
+    tiebreaker:	string;
+    calendarEventID: string;
+    seasonDisplay: string;
+    dayNight: string;
+    scheduledInnings: number;
+    reverseHomeAwayStatus:	boolean;
+    inningBreakLength: number;
+    gamesInSeries: number;
+    seriesGameNumber: number;
+    seriesDescription: string;
+    recordSource: string;
+    ifNecessary: string;
+    ifNecessaryDescription:	string;
+};
+
+type TotalGamesInfo = {
+    totalItems: number;
+    totalEvents: number;
+    totalGames: number;
+    totalGamesInProgress: number;
+}
+
+type DailySchedule = TotalGamesInfo & {
+    date: 'string';
+    games: Game[];
+};
+
+type Schedule = Base & TotalGamesInfo & {
+    dates: DailySchedule[];
+};
+
+type Endpoints = 'sports' | 'teams' | 'seasons' | 'standings' | 'divisions' | 'league' | 'team' | 'schedule';
 type Response<Endpoint> = Endpoint extends 'sports'
     ? Sports
     : Endpoint extends 'teams'
@@ -257,4 +340,6 @@ type Response<Endpoint> = Endpoint extends 'sports'
     ? Leagues
     : Endpoint extends 'team'
     ? Team
+    : Endpoint extends 'schedule'
+    ? Schedule
     : never;
