@@ -1,4 +1,4 @@
-type Params = {
+export type Params = {
     sportId?: number;
     season?: string;
     activeStatus?: boolean;
@@ -33,7 +33,7 @@ export type Sports = Base & {
     sports: Sport[];
 };
 
-type Team = {
+export type Team = {
     allStarStatus: string;
     id: number;
     name: string;
@@ -73,11 +73,11 @@ type Team = {
     active: true;
 };
 
-type Teams = Base & {
+export type Teams = Base & {
     teams: Team[];
 };
 
-type Season = {
+export type Season = {
     seasonId: string;
     hasWildcard: true;
     preSeasonStartDate: string;
@@ -101,7 +101,7 @@ type Season = {
     qualifierOutsPitched: 6000;
 };
 
-type Seasons = Base & {
+export type Seasons = Base & {
     seasons: Season[];
 };
 
@@ -126,7 +126,7 @@ type Division = {
     active: true;
 };
 
-type Divisions = Base & {
+export type Divisions = Base & {
     divisions: Division[];
 };
 
@@ -152,11 +152,11 @@ type League = {
     active: boolean;
 };
 
-type Leagues = Base & {
+export type Leagues = Base & {
     leagues: League[];
 };
 
-type Record = {
+type RecordInfo = {
     wins: number;
     losses: number;
     type: string;
@@ -195,11 +195,11 @@ type TeamRecord = {
     };
     lastUpdated: string;
     records: {
-        splitRecords: Record[];
-        divisionRecords: Record[];
-        overallRecords: Record[];
-        leagueRecords: Record[];
-        expectedRecords: Record[];
+        splitRecords: RecordInfo[];
+        divisionRecords: RecordInfo[];
+        overallRecords: RecordInfo[];
+        leagueRecords: RecordInfo[];
+        expectedRecords: RecordInfo[];
     };
     runsAllowed: number;
     runsScored: number;
@@ -233,11 +233,11 @@ type Standing = {
     teamRecords: TeamRecord[];
 };
 
-type Standings = Base & {
+export type Standings = Base & {
     records: Standing[];
 };
 
-type LeagueWithStandings = League & {
+export type LeagueWithStandings = League & {
     standings: Array<
         Standing & {
             division: Division;
@@ -321,12 +321,12 @@ type DailySchedule = TotalGamesInfo & {
     games: Game[];
 };
 
-type Schedule = Base & TotalGamesInfo & {
+export type Schedule = Base & TotalGamesInfo & {
     dates: DailySchedule[];
 };
 
-type Endpoints = 'sports' | 'teams' | 'seasons' | 'standings' | 'divisions' | 'league' | 'team' | 'schedule';
-type Response<Endpoint> = Endpoint extends 'sports'
+export type Endpoints = 'sports' | 'teams' | 'seasons' | 'standings' | 'divisions' | 'league' | 'team' | 'schedule';
+export type APIResponse<Endpoint> = Endpoint extends 'sports'
     ? Sports
     : Endpoint extends 'teams'
     ? Teams
